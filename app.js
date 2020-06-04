@@ -22,9 +22,9 @@ async function getSearchGiphy(q){
     giphyPic.class = "card-img-top"
     let cards = $('#giphyPhotos').html()
     $('#giphyPhotos').html(
-        `${cards} <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        `${cards} <div class="col-6 col-md-4 col-lg-3 col-xl-2 my-1">
         <div class="card" ">
-            <img src="${response.data.message}" class="card-img-top" alt="...">
+            <img src="${response.data.message}" class="card-img" alt="...">
       <div class="card-body">
         <h6 class="card-title bg-light rounded d-flex justify-content-center">${q}</h6>
       </div>
