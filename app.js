@@ -1,47 +1,38 @@
 console.log("Let's get this party started!");
 
+const api_key = "3D8Ngx6amlFVTGYxiCXSQ4qcZLCqf05w"
 
-//JS getRandom - just to test API in console
-async function getRandomGiphy(){
-    const response = await axios.get('https://dog.ceo/api/breeds/image/random');
-    console.log(response);
-    const giphyPic = document.createElement('img');
-    giphyPic.src = response.data.message
-    const giphyGallery = document.querySelector('#giphyPhotos');
-    giphyGallery.append(giphy)
-}
+//jQuery + bootstrap card attempt
 
-//jQuery attempt
+async function getSearchGiphy(q,api_key){
+    //search and get the array of giphs
+    const response = await axios.get(`http://api.giphy.com/v1/gifs/search`,{params:{q,api_key}});
 
-//card attempt
-async function getSearchGiphy(q){
-    const response = await axios.get(`https://dog.ceo/api/breed/${q}/images/random`);
-    //console.log(response);
-    const giphyPic = document.createElement('img');
-    giphyPic.src = response.data.message;
-    giphyPic.class = "card-img-top"
-    let cards = $('#giphyPhotos').html()
+    //pick one at random from the length of the array
+    let index = Math.floor(Math.random() * response.data.data.length)
+   
+    //create a card with the url and add to the page
+    let $cards = $('#giphyPhotos').html()
     $('#giphyPhotos').html(
-        `${cards} <div class="col-6 col-md-4 col-lg-3 col-xl-2 my-1">
+        `${$cards} <div class="col-6 col-md-4 col-lg-3 col-xl-2 my-1">
         <div class="card" ">
-            <img src="${response.data.message}" class="card-img" alt="...">
+            <img src="${response.data.data[index].images.original.url}" class="card-img" alt="...">
       <div class="card-body">
         <h6 class="card-title bg-light rounded d-flex justify-content-center">${q}</h6>
       </div>
     </div>`)
-}
-//style="width: 18rem;
+};
+
 $('button').eq(0).on('click',function(e){
     e.preventDefault();
-    let search = $('input').eq(0);
-    getSearchGiphy(search.val());
-    search.val("")
+    let $search = $('input').eq(0);
+    getSearchGiphy($search.val(),api_key);
+    $search.val("")
 })
 
 $('button').eq(1).on('click',function(e){
     e.preventDefault();
     $('#giphyPhotos').html("")
-    //$('#card').remove();
 })
 
 //no card
@@ -54,7 +45,18 @@ $('button').eq(1).on('click',function(e){
     $('#giphyPhotos').append(giphyPic)
 }*/
 
+//JS getRandom - just to test API in console
+/* dog attempt: async function getRandomGiphy(q){
+    const response = await axios.get('https://dog.ceo/api/breeds/image/random');
+    console.log(response);
+    const giphyPic = document.createElement('img');
+    giphyPic.src = response.data.message
+    const giphyGallery = document.querySelector('#giphyPhotos');
+    giphyGallery.append(giphy)
+}*/
+
 //JavaScript Only - no JQuery
+
 /*
 let giphySearch = document.getElementById('searchform');
 const giphyInput = document.querySelector('#search');
@@ -77,4 +79,37 @@ giphySearch.addEventListener('submit',function(e){
     getSearchGiphy(giphyInput.value)
     giphyInput.value="";
 })
+    //giphyPic.src = response.data.data[0].embed_url
+    //const giphyGallery = document.querySelector('#giphyPhotos');
+    //giphyGallery.append(giphyPic);
+}
+*/
+
+/*async function getSearchGiphy(q,api_key){
+    const response = await axios.get(`http://api.giphy.com/v1/gifs/search`,{params:{q,api_key}});
+    //console.log(response);
+    console.log(response.data.data[0].embed_url)
+    const giphyPic = document.createElement('img');
+    giphyPic.src = response.data.message
+    giphyPic.src = response.data.data[0].embed_url
+    const giphyGallery = document.querySelector('#giphyPhotos');
+    giphyGallery.append(giphyPic);
+}*/
+
+/*DOG ATTEMPT: async function getSearchGiphy(q){
+    const response = await axios.get(`https://dog.ceo/api/breed/${q}/images/random`);
+    //console.log(response);
+    const giphyPic = document.createElement('img');
+    giphyPic.src = response.data.message;
+    giphyPic.class = "card-img-top"
+    let cards = $('#giphyPhotos').html()
+    $('#giphyPhotos').html(
+        `${cards} <div class="col-6 col-md-4 col-lg-3 col-xl-2 my-1">
+        <div class="card" ">
+            <img src="${response.data.message}" class="card-img" alt="...">
+      <div class="card-body">
+        <h6 class="card-title bg-light rounded d-flex justify-content-center">${q}</h6>
+      </div>
+    </div>`)
+}
 */
